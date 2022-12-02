@@ -22,8 +22,10 @@ select {
     font-size: 1.25rem;
 }
 
-input[type="text"], input[type="email"] {
-    width: 100%;
+input[type="text"], 
+input[type="email"],
+input[type="url"] {
+    width: 75vw;
 }
   
 input[type="submit"] {
@@ -44,4 +46,5 @@ input:invalid:not(.btn) {
 
 #person-request div {
     display: none;
+    margin-top: 2rem;
 }
