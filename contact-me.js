@@ -66,8 +66,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function will hide/display additional info based on option selected in dropdown menu
     function displayAdditionalInfo (info) {
-        console.log("log: " + info)
-
         if(info == 'job') {
             // Reset options
             codeLang.value = "";
