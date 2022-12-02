@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactReason = document.getElementById('contact-reason');
     const form = document.getElementById('contact-me');
 
+    // const lookup = {
+        
+    // }
+
     // Added a 'blur' listener to detect when a user leaves an input field. The useCapture argument was set to true to allow capture of all 'blur' events
     document.addEventListener('blur', function(e) {
 
@@ -31,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(e.target.id == 'contact-reason') isReasonInvalid(e.target, e.target.value);
     }, true);
 
+    // {EXTRA CREDIT}
     document.addEventListener('change', function(e) {
         if(e.target.id == 'language') isLanguageInvalid(e.target, e.target.value);
     }, true);
@@ -70,16 +75,24 @@ document.addEventListener('DOMContentLoaded', function() {
         if(info == 'job') {
             document.querySelector('.additional-info-job').style.display = 'block';
             document.querySelector('.additional-info-talk').style.display = 'none';
+            codeLang.value = "";
+            
         }
             
         if(info == 'talk') {
             document.querySelector('.additional-info-job').style.display = 'none';
             document.querySelector('.additional-info-talk').style.display = 'block';
+            title.value = "";
+            company.value = "";
         }
 
         if(info == '') {
+            // Reset to default values
             document.querySelector('.additional-info-job').style.display = 'none';
             document.querySelector('.additional-info-talk').style.display = 'none';
+            codeLang.value = "";
+            title.value = "";
+            company.value = "";
         }
     }
 
