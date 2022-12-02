@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullName = document.getElementById('name');
     const email = document.getElementById('email');
     const message = document.getElementById('message');
+    const title = document.getElementById('title');
+    const company = document.getElementById('company');
+    const contactReason = document.getElementById('contact-reason');
     const form = document.getElementById('contact-me');
 
     // Added a 'blur' listener to detect when a user leaves an input field. The useCapture argument was set to true to allow capture of all 'blur' events
@@ -14,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if(e.target.id == 'name') isNameInvalid(e.target, e.target.value);
         if(e.target.id == 'email') isEmailInvalid(e.target, e.target.value);
         if(e.target.id == 'message') isMessageInvalid(e.target, e.target.value);
+
+        // {EXTRA CREDIT}
+        if(e.target.id == 'title') isTitleInvalid(e.target, e.target.value);
+        if(e.target.id == 'company') isCompanyInvalid(e.target, e.target.value);
 
         // form.reportValidity();
     }, true);
@@ -32,30 +39,40 @@ document.addEventListener('DOMContentLoaded', function() {
         isEmailInvalid(email, email.value);
         isMessageInvalid(message, message.value);
 
-        // If name and email fields are valid, continue with submit
-        if (! (fullName.validity.customError && email.validity.customError && message.validity.customError)) {
-            form.submit();
+        if (contactReason.value == 'job') {
+            isTitleInvalid(title, title.value);
+            isCompanyInvalid(company, company.value);
+
+            if (! (fullName.validity.customError && email.validity.customError && message.validity.customError && title.validity.customError && company.validity.customError)) {
+                form.submit();
+            }
+        } else if (contactReason.value == 'talk') {
+
+        } else {
+            // If name and email fields are valid, continue with submit
+            if (! (fullName.validity.customError && email.validity.customError && message.validity.customError)) {
+                form.submit();
+            }
         }
+
+        
     });
 
     // Function will hide/display additional info based on option selected in dropdown menu
     function displayAdditionalInfo (info) {
-        const job = document.querySelector('.additional-info-job');
-        const talk = document.querySelector('.additional-info-talk');
-        
         if(info == 'job') {
-            job.style.display = 'block';
-            talk.style.display = 'none';
+            document.querySelector('.additional-info-job').style.display = 'block';
+            document.querySelector('.additional-info-talk').style.display = 'none';
         }
             
         if(info == 'talk') {
-            job.style.display = 'none';
-            talk.style.display = 'block';
+            document.querySelector('.additional-info-job').style.display = 'none';
+            document.querySelector('.additional-info-talk').style.display = 'block';
         }
 
         if(info == '') {
-            job.style.display = 'none';
-            talk.style.display = 'none';
+            document.querySelector('.additional-info-job').style.display = 'none';
+            document.querySelector('.additional-info-talk').style.display = 'none';
         }
     }
 
@@ -105,6 +122,28 @@ document.addEventListener('DOMContentLoaded', function() {
             e.setCustomValidity('');
         }
         displayAdditionalInfo(reason);
+    }
+
+    function isTitleInvalid (e, title) {
+        if(title.length < 1) {
+            e.classList.add('invalid'); 
+            e.setCustomValidity('Text field must not be empty');
+            
+        } else {
+            e.classList.remove('invalid'); 
+            e.setCustomValidity('');
+        }
+    }
+
+    function isCompanyInvalid (e, company) {
+        const regex = /https?\:\/\/.+\..+/gi;
+        if(!regex.test(company)) {
+            e.classList.add('invalid'); 
+            e.setCustomValidity('URL is invalid');
+        } else {
+            e.classList.remove('invalid'); 
+            e.setCustomValidity('');
+        }
     }
 
 });
