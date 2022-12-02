@@ -1,18 +1,46 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    font-size: 25px;
+  }
+
 h1 {
     font-size: 3rem;
 }
 
 label {
-    font-size: 2em;
+    font-size: 2rem;
 }
 
 input {
-    font-size: 0.75em;
+    font-size: 1.5rem;
 }
 
 select {
-    font-size: 1.5em;
+    font-size: 1.25rem;
 }
+
+input[type="text"], input[type="email"] {
+    width: 100%;
+}
+  
+input[type="submit"] {
+    font-size: 1.5rem;
+}
+
+.invalid {
+    border: 3px solid red;
+}
+
+
+/* input:valid:not(.btn) {
+	background-color: white;
+}
+input:invalid:not(.btn) {
+	background-color: rgba(220, 104, 121, 0.38);
+} */
 
 #person-request div {
     display: none;
