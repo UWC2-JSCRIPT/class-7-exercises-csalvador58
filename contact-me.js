@@ -14,13 +14,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('blur', function(e) {
 
         // Check element's ID then run invalid function
-        if(e.target.id == 'name') isNameInvalid(e.target, e.target.value);
-        if(e.target.id == 'email') isEmailInvalid(e.target, e.target.value);
-        if(e.target.id == 'message') isMessageInvalid(e.target, e.target.value);
+        // if(e.target.id == 'name') isNameInvalid(e.target, e.target.value);
+        if(e.target.id == 'name') isStrInvalid(e.target, e.target.value, 3);
+        if(e.target.id == 'email') isRegexInvalid(e.target, e.target.value, 0);
+        if(e.target.id == 'message') isStrInvalid(e.target, e.target.value, 10);
 
         // {EXTRA CREDIT}
-        if(e.target.id == 'title') isTitleInvalid(e.target, e.target.value);
-        if(e.target.id == 'company') isCompanyInvalid(e.target, e.target.value);
+        if(e.target.id == 'title') isStrInvalid(e.target, e.target.value, 1);
+        if(e.target.id == 'company') isRegexInvalid(e.target, e.target.value, 1);
     }, true);
 
     // Added a 'change' listener event to run function when dropdown selection is changed
@@ -31,18 +32,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if(e.target.id == 'language') isLanguageInvalid(e.target, e.target.value);
     }, true);
 
-     
+    // 'Submit' listener to run checks before form submission  
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
         // Run all invalid checks
-        isNameInvalid(fullName, fullName.value);
-        isEmailInvalid(email, email.value);
-        isMessageInvalid(message, message.value);
+        isStrInvalid(fullName, fullName.value, 3);
+        isRegexInvalid(email, email.value, 0);
+        isStrInvalid(message, message.value, 10);
 
+        // Run additional checks based on optional reason for contact info.
+        // form.reportValidity method used to alert invalid inputs on screen
         if (contactReason.value == 'job') {
-            isTitleInvalid(title, title.value);
-            isCompanyInvalid(company, company.value);
+            isStrInvalid(title, title.value, 1);
+            isRegexInvalid(company, company.value, 1);
             form.reportValidity();
 
             if (! (fullName.validity.customError + email.validity.customError + message.validity.customError + title.validity.customError + company.validity.customError) > 0) {
@@ -56,7 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 form.submit();
             }
         } else {
-            // If name and email fields are valid, continue with submit
             form.reportValidity();
             if (! (fullName.validity.customError + email.validity.customError + message.validity.customError) > 0) {
                 form.submit();
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Function will hide/display additional info based on option selected in dropdown menu
+    // Function will hide/display additional info based on the option selected in the dropdown menu
     function displayAdditionalInfo (info) {
         if(info == 'job') {
             // Reset options
@@ -81,8 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reset options
             title.value = "";
             company.value = "";
-            isTitleInvalid(title, true);
-            isCompanyInvalid(company, 'https://wwww.123.com');
+            isStrInvalid(title, true, 1);
+            isRegexInvalid(company, 'https://wwww.123test.com', 1);
             isReasonInvalid (contactReason, true);
             document.querySelector('.additional-info-job').style.display = 'none';
 
@@ -96,34 +98,24 @@ document.addEventListener('DOMContentLoaded', function() {
             title.value = "";
             company.value = "";
             isLanguageInvalid(codeLang, true);
-            isTitleInvalid(title, true);
-            isCompanyInvalid(company, 'https://wwww.123.com');
+            isStrInvalid(title, true, 1);
+            isRegexInvalid(company, 'https://wwww.123test.com', 1);
             isReasonInvalid (contactReason, true);
             document.querySelector('.additional-info-job').style.display = 'none';
             document.querySelector('.additional-info-talk').style.display = 'none';
         }
     }
 
-    // Following functions checks form requirements. If form field is invalid, the custom validity error is set and invalid class is added until user corrects input
-    function isCompanyInvalid (e, company) {
-        const regex = /https?\:\/\/.+\..+/gi;
-        if(!regex.test(company)) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('URL is invalid');
-        } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
-        }
-    }
+    function isRegexInvalid (el, str, expression) {
+        // Regex array - 0 for email test, 1 for url test.
+        const regex = [/\w+@\w+\.\w+/g, /https?\:\/\/.+\..+/g];
 
-    function isEmailInvalid (e, email) {
-        const regex = /\w+@\w+\.\w+/gi;
-        if(!regex.test(email)) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Email is invalid');
+        if(! (regex[expression].test(str))) {
+            el.classList.add('invalid'); 
+            el.setCustomValidity(`Your ${el.id} is invalid`);
         } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
+            el.classList.remove('invalid'); 
+            el.setCustomValidity('');
         }  
     }
 
@@ -138,48 +130,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function isMessageInvalid (e, msg) {
-        if(msg.length < 10) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Message must be at least 10 characters');
+    // Checks if string is invalid. Arguments include the referenced element, string, and string length limit.
+    function isStrInvalid (el, str, minLimit) {
+        if(str.length < minLimit) {
+            el.classList.add('invalid'); 
+            el.setCustomValidity(`Input must be at least ${minLimit} characters`);
             
         } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
-        }
-    }
-
-    function isNameInvalid (e, name) {
-        if(name.length < 3) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Name must be at least 3 characters');
-            
-        } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
+            el.classList.remove('invalid'); 
+            el.setCustomValidity('');
         }
     }
 
     function isReasonInvalid (e, reason) {
         if(!reason) {
             e.classList.add('invalid'); 
-            e.setCustomValidity('Please select and option');
+            e.setCustomValidity('Please select an option');
             
         } else {
             e.classList.remove('invalid'); 
             e.setCustomValidity('');
         }
         displayAdditionalInfo(reason);
-    }
-
-    function isTitleInvalid (e, title) {
-        if(title.length < 1) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Text field must not be empty');
-            
-        } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
-        }
     }
 });
