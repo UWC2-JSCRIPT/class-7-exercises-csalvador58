@@ -22,7 +22,7 @@
     <fieldset id="person-request">
       <label for="contact-reason">Reason for contacting: </label>
       <select name="reason" id="contact-reason">
-        <option value="">--Please choose a reason</option>
+        <option value="">--Select Reason</option>
         <option value="job">Job opportunity</option>
         <option value="talk">Talk code</option>
       </select>
@@ -34,7 +34,14 @@
       </div>
 
       <div class="additional-info-talk">
-        <label for="language">Coding Language: <br><input id="language" type="text" placeholder="What coding language(s) do you want to discuss?"><br></label>
+        <label for="language">Coding Language: </label>
+        <select name="code" id="language">
+          <option value="">--Choose One</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="javascript">Javascript</option>
+          <option value="solidity">Solidity</option>
+        </select>
       </div>
     </fieldset>
     

@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const message = document.getElementById('message');
     const title = document.getElementById('title');
     const company = document.getElementById('company');
+    const codeLang = document.getElementById('language');
     const contactReason = document.getElementById('contact-reason');
     const form = document.getElementById('contact-me');
 
@@ -30,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if(e.target.id == 'contact-reason') isReasonInvalid(e.target, e.target.value);
     }, true);
 
+    document.addEventListener('change', function(e) {
+        if(e.target.id == 'language') isLanguageInvalid(e.target, e.target.value);
+    }, true);
+
      
     form.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -47,15 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 form.submit();
             }
         } else if (contactReason.value == 'talk') {
+            isLanguageInvalid(codeLang, codeLang.value);
 
+            if (! (fullName.validity.customError && email.validity.customError && message.validity.customError && codeLang.validity.customError)) {
+                form.submit();
+            }
         } else {
             // If name and email fields are valid, continue with submit
             if (! (fullName.validity.customError && email.validity.customError && message.validity.customError)) {
                 form.submit();
             }
         }
-
-        
     });
 
     // Function will hide/display additional info based on option selected in dropdown menu
@@ -88,6 +95,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }  
     }
 
+    function isLanguageInvalid (e, code) {
+        if(!code) {
+            e.classList.add('invalid'); 
+            e.setCustomValidity('Please select and option');
+            
+        } else {
+            e.classList.remove('invalid'); 
+            e.setCustomValidity('');
+        }
+    }
+
     function isMessageInvalid (e, msg) {
         if(msg.length < 10) {
             e.classList.add('invalid'); 
@@ -111,8 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function isReasonInvalid (e, reason) {
-
-        console.log(e)
         if(!reason) {
             e.classList.add('invalid'); 
             e.setCustomValidity('Please select and option');
