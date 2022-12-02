@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // If name and email fields are valid, continue with submit
         if (! (firstName.validity.customError && lastName.validity.customError && email.validity.customError)) {
             form.submit();
-        }       
+        }
     });
 
 
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!regex.test(email)) {
             e.classList.add('invalid'); 
             e.setCustomValidity('Email is invalid');
+            console.log("Bad input")
         } else {
             e.classList.remove('invalid'); 
             e.setCustomValidity('');
@@ -53,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(name.length < 3) {
             e.classList.add('invalid'); 
             e.setCustomValidity('Name must be at least 3 characters');
+            console.log("Bad input")
             
         } else {
             e.classList.remove('invalid'); 
