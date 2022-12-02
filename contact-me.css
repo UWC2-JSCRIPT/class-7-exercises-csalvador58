@@ -4,10 +4,15 @@ body {
     height: 100vh;
     margin: 0;
     font-size: 25px;
-  }
+}
+
+form {
+    margin: 10px;
+}
 
 h1 {
     font-size: 3rem;
+    text-align: center;
 }
 
 label {
@@ -29,7 +34,9 @@ input[type="url"] {
 }
   
 input[type="submit"] {
-    font-size: 1.5rem;
+    display: block;
+    margin: 1em auto;
+    font-size: 1.25rem;
 }
 
 .invalid {
