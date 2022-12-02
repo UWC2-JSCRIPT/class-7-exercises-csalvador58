@@ -6,7 +6,7 @@ body {
     font-size: 25px;
 }
 
-form {
+form, fieldset {
     margin: 10px;
 }
 
@@ -16,21 +16,23 @@ h1 {
 }
 
 label {
+    margin: 3rem 0;
     font-size: 2rem;
 }
 
 input {
-    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    font-size: 1rem;
 }
 
-select {
+select, textarea {
     font-size: 1.25rem;
 }
 
 input[type="text"], 
 input[type="email"],
 input[type="url"] {
-    width: 75vw;
+    width: 65vw;
 }
   
 input[type="submit"] {
