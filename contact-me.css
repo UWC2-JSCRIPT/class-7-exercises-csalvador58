@@ -6,8 +6,17 @@ body {
     font-size: 25px;
 }
 
-form, fieldset {
-    margin: 10px;
+fieldset {
+    margin: 1rem;
+    overflow: auto;
+    
+}
+
+form {
+    margin: 10px auto;
+    padding: 1rem 3rem;
+    max-width: 600px;
+    min-width: 400px;
 }
 
 h1 {
@@ -22,7 +31,7 @@ input {
 input[type="text"], 
 input[type="email"],
 input[type="url"] {
-    width: 65vw;
+    width: 70%;
 }
   
 input[type="submit"] {
@@ -36,8 +45,12 @@ label {
     font-size: 2rem;
 }
 
+textarea {
+    width: 99%;
+}
+
 select, textarea {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .invalid {
