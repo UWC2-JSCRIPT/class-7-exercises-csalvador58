@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Added a 'change' listener event to run function when dropdown selection is changed
     document.addEventListener('change', function(e) {
-        if(e.target.id == 'contact-reason') isReasonInvalid(e.target, e.target.value);
+        if(e.target.id == 'contact-reason') isSelectInvalid(e.target, e.target.value, true);
 
         // {EXTRA CREDIT}
-        if(e.target.id == 'language') isLanguageInvalid(e.target, e.target.value);
+        if(e.target.id == 'language') isSelectInvalid(e.target, e.target.value, false);
     }, true);
 
     // 'Submit' listener to run checks before form submission  
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 form.submit();
             }
         } else if (contactReason.value == 'talk') {
-            isLanguageInvalid(codeLang, codeLang.value);
+            isSelectInvalid(codeLang, codeLang.value, false);
             form.reportValidity();
 
             if (! (fullName.validity.customError + email.validity.customError + message.validity.customError + codeLang.validity.customError) > 0) {
@@ -71,11 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if(info == 'job') {
             // Reset options
             codeLang.value = "";
-            isLanguageInvalid(codeLang, true);
-            isReasonInvalid (contactReason, true);
+            isSelectInvalid(contactReason, true, true);
+            isSelectInvalid(codeLang, true, false);
             document.querySelector('.additional-info-talk').style.display = 'none';
 
-            // Show Talk options
+            // Show Job options
             document.querySelector('.additional-info-job').style.display = 'block';
         }
             
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title.value = "";
             company.value = "";
             isStrInvalid(title, true, 1);
+            isSelectInvalid(contactReason, true, true);
             isRegexInvalid(company, 'https://wwww.123test.com', 1);
-            isReasonInvalid (contactReason, true);
             document.querySelector('.additional-info-job').style.display = 'none';
 
             // Show Talk options
@@ -97,10 +97,10 @@ document.addEventListener('DOMContentLoaded', function() {
             codeLang.value = "";
             title.value = "";
             company.value = "";
-            isLanguageInvalid(codeLang, true);
+            isSelectInvalid(contactReason, true, true);
+            isSelectInvalid(codeLang, true, false);
             isStrInvalid(title, true, 1);
             isRegexInvalid(company, 'https://wwww.123test.com', 1);
-            isReasonInvalid (contactReason, true);
             document.querySelector('.additional-info-job').style.display = 'none';
             document.querySelector('.additional-info-talk').style.display = 'none';
         }
@@ -119,15 +119,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }  
     }
 
-    function isLanguageInvalid (e, code) {
-        if(!code) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Please select an option');
+    function isSelectInvalid (el, option, displayFlag) {
+        if(!option) {
+            el.classList.add('invalid'); 
+            el.setCustomValidity('Please select an option');
             
         } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
+            el.classList.remove('invalid'); 
+            el.setCustomValidity('');
         }
+
+        if(displayFlag) displayAdditionalInfo(option);
     }
 
     // Checks if string is invalid. Arguments include the referenced element, string, and string length limit.
@@ -140,17 +142,5 @@ document.addEventListener('DOMContentLoaded', function() {
             el.classList.remove('invalid'); 
             el.setCustomValidity('');
         }
-    }
-
-    function isReasonInvalid (e, reason) {
-        if(!reason) {
-            e.classList.add('invalid'); 
-            e.setCustomValidity('Please select an option');
-            
-        } else {
-            e.classList.remove('invalid'); 
-            e.setCustomValidity('');
-        }
-        displayAdditionalInfo(reason);
     }
 });
